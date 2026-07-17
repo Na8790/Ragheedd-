@@ -379,12 +379,16 @@ fun LoginScreen(
                     label = { Text("البريد الإلكتروني", fontFamily = FontFamily.SansSerif) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .testTag("login_email"),
+                        .testTag("login_email")
+                        .shadow(1.dp, RoundedCornerShape(14.dp)),
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = DeepBlue,
-                        focusedLabelColor = DeepBlue
+                        focusedBorderColor = DeepBlue.copy(alpha = 0.6f),
+                        focusedLabelColor = DeepBlue,
+                        unfocusedBorderColor = Color.White.copy(alpha = 0.5f),
+                        focusedContainerColor = Color.White.copy(alpha = 0.9f),
+                        unfocusedContainerColor = Color.White.copy(alpha = 0.65f)
                     ),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(14.dp)
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -396,12 +400,16 @@ fun LoginScreen(
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .testTag("login_password"),
+                        .testTag("login_password")
+                        .shadow(1.dp, RoundedCornerShape(14.dp)),
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = DeepBlue,
-                        focusedLabelColor = DeepBlue
+                        focusedBorderColor = DeepBlue.copy(alpha = 0.6f),
+                        focusedLabelColor = DeepBlue,
+                        unfocusedBorderColor = Color.White.copy(alpha = 0.5f),
+                        focusedContainerColor = Color.White.copy(alpha = 0.9f),
+                        unfocusedContainerColor = Color.White.copy(alpha = 0.65f)
                     ),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(14.dp)
                 )
 
                 if (isError) {
@@ -655,9 +663,10 @@ fun MainDashboardScreen(viewModel: MainViewModel) {
             modifier = Modifier
                 .padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 8.dp) // Lifted up with padding
                 .fillMaxWidth()
-                .shadow(12.dp, RoundedCornerShape(20.dp)),
-            shape = RoundedCornerShape(20.dp),
-            colors = CardDefaults.cardColors(containerColor = DeepBlue)
+                .shadow(16.dp, RoundedCornerShape(24.dp)),
+            shape = RoundedCornerShape(24.dp),
+            colors = CardDefaults.cardColors(containerColor = GlassDeepBlue),
+            border = BorderStroke(1.dp, Color.White.copy(alpha = 0.15f))
         ) {
             Row(
                 modifier = Modifier
@@ -847,8 +856,9 @@ fun HomeScreenTab(viewModel: MainViewModel) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(180.dp),
-                shape = RoundedCornerShape(16.dp)
+                    .height(190.dp)
+                    .shadow(8.dp, RoundedCornerShape(24.dp)),
+                shape = RoundedCornerShape(24.dp)
             ) {
                 Box(modifier = Modifier.fillMaxSize()) {
                     Image(
@@ -867,27 +877,64 @@ fun HomeScreenTab(viewModel: MainViewModel) {
                                 )
                             )
                     )
-                    // Text Overlay
-                    Column(
+                    // Text Overlay matching the design layout (Split into Left Price / Right Info)
+                    Row(
                         modifier = Modifier
-                            .align(Alignment.BottomEnd)
+                            .align(Alignment.BottomCenter)
+                            .fillMaxWidth()
                             .padding(16.dp),
-                        horizontalAlignment = Alignment.End
+                        verticalAlignment = Alignment.Bottom,
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(
-                            text = "السفر الذكي يبدأ من تِجربة",
-                            color = WarmGold,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = FontFamily.SansSerif
-                        )
-                        Text(
-                            text = "اجمع بين حجز الرحلة وشراء التجارب التراثية الأصيلة",
-                            color = Color.White.copy(alpha = 0.9f),
-                            fontSize = 12.sp,
-                            fontFamily = FontFamily.SansSerif,
-                            textAlign = TextAlign.Right
-                        )
+                        // Frosted Glass Price Badge on the Left
+                        Box(
+                            modifier = Modifier
+                                .background(Color.White.copy(alpha = 0.2f), RoundedCornerShape(12.dp))
+                                .border(1.dp, Color.White.copy(alpha = 0.35f), RoundedCornerShape(12.dp))
+                                .padding(horizontal = 12.dp, vertical = 6.dp)
+                        ) {
+                            Text(
+                                text = "450 ر.س",
+                                color = Color.White,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = FontFamily.SansSerif
+                            )
+                        }
+
+                        // Info on the Right
+                        Column(horizontalAlignment = Alignment.End) {
+                            // "Featured Experience" Mini-badge
+                            Box(
+                                modifier = Modifier
+                                    .background(WarmGold, RoundedCornerShape(8.dp))
+                                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                            ) {
+                                Text(
+                                    text = "تجربة مختارة",
+                                    color = DeepBlue,
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Black,
+                                    fontFamily = FontFamily.SansSerif
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(6.dp))
+                            Text(
+                                text = "يوم مع نحال في مزارع العلا",
+                                color = Color.White,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = FontFamily.SansSerif
+                            )
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Text(
+                                text = "العلا، المملكة العربية السعودية",
+                                color = Color.White.copy(alpha = 0.8f),
+                                fontSize = 11.sp,
+                                fontFamily = FontFamily.SansSerif,
+                                textAlign = TextAlign.Right
+                            )
+                        }
                     }
                 }
             }
@@ -900,46 +947,52 @@ fun HomeScreenTab(viewModel: MainViewModel) {
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                // Glassmorphic Filter Button
                 IconButton(
                     onClick = { showFilterDialog = true },
                     modifier = Modifier
-                        .size(50.dp)
-                        .background(Color.White, RoundedCornerShape(12.dp))
-                        .border(1.dp, LightBlue, RoundedCornerShape(12.dp))
+                        .size(52.dp)
+                        .background(Color.White.copy(alpha = 0.65f), RoundedCornerShape(14.dp))
+                        .border(1.dp, Color.White.copy(alpha = 0.5f), RoundedCornerShape(14.dp))
+                        .shadow(2.dp, RoundedCornerShape(14.dp))
                 ) {
                     Icon(imageVector = Icons.Default.Tune, contentDescription = "Filters", tint = DeepBlue)
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 val query by viewModel.searchQuery.collectAsState()
+                
+                // Glassmorphic Search Bar
                 OutlinedTextField(
                     value = query,
                     onValueChange = { viewModel.searchQuery.value = it },
-                    placeholder = { Text("ابحث عن 'نحال'، 'فخار'، 'هايكنج'...", fontSize = 14.sp, fontFamily = FontFamily.SansSerif) },
-                    leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "Search", tint = Color.Gray) },
+                    placeholder = { Text("ابحث عن تجربتك التالية...", fontSize = 14.sp, fontFamily = FontFamily.SansSerif) },
+                    leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "Search", tint = WarmGold) },
                     modifier = Modifier
                         .weight(1.0f)
-                        .height(52.dp),
-                    shape = RoundedCornerShape(12.dp),
+                        .height(52.dp)
+                        .shadow(2.dp, RoundedCornerShape(14.dp)),
+                    shape = RoundedCornerShape(14.dp),
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = DeepBlue,
-                        unfocusedBorderColor = LightBlue,
-                        focusedContainerColor = Color.White,
-                        unfocusedContainerColor = Color.White
+                        focusedBorderColor = DeepBlue.copy(alpha = 0.5f),
+                        unfocusedBorderColor = Color.White.copy(alpha = 0.5f),
+                        focusedContainerColor = Color.White.copy(alpha = 0.9f),
+                        unfocusedContainerColor = Color.White.copy(alpha = 0.65f)
                     ),
                     singleLine = true
                 )
             }
         }
 
-        // Smart AI travel Assistant CTA
+        // Smart AI travel Assistant CTA - Styled with Glassmorphism and gold tint
         item {
             Spacer(modifier = Modifier.height(16.dp))
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { viewModel.pushScreen(Screen.AiPlanner) }
-                    .border(1.dp, WarmGold.copy(alpha = 0.5f), RoundedCornerShape(16.dp)),
-                colors = CardDefaults.cardColors(containerColor = LightGold),
+                    .shadow(4.dp, RoundedCornerShape(16.dp))
+                    .border(1.dp, Color.White.copy(alpha = 0.4f), RoundedCornerShape(16.dp)),
+                colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.65f)),
                 shape = RoundedCornerShape(16.dp)
             ) {
                 Row(
@@ -1015,10 +1068,10 @@ fun HomeScreenTab(viewModel: MainViewModel) {
                         modifier = Modifier
                             .clickable { viewModel.selectedCategory.value = cat }
                             .background(
-                                if (isSelected) DeepBlue else Color.White,
+                                if (isSelected) DeepBlue else Color.White.copy(alpha = 0.65f),
                                 RoundedCornerShape(12.dp)
                             )
-                            .border(1.dp, if (isSelected) DeepBlue else LightBlue, RoundedCornerShape(12.dp))
+                            .border(1.dp, if (isSelected) DeepBlue else Color.White.copy(alpha = 0.5f), RoundedCornerShape(12.dp))
                             .padding(horizontal = 16.dp, vertical = 10.dp)
                     ) {
                         Text(
@@ -1373,10 +1426,11 @@ fun ExperienceCard(exp: ExperienceItem, onClick: () -> Unit) {
         modifier = Modifier
             .width(220.dp)
             .clickable { onClick() }
-            .testTag("experience_card_${exp.id}"),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+            .testTag("experience_card_${exp.id}")
+            .shadow(4.dp, RoundedCornerShape(16.dp)),
+        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.65f)),
         shape = RoundedCornerShape(16.dp),
-        border = BorderStroke(1.dp, LightBlue)
+        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.5f))
     ) {
         Column {
             Box(
