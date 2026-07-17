@@ -1,0 +1,6 @@
+{
+  "name": "تِجربة - Tajribah",
+  "description": "منصة التجارب المحلية والسفر الذكي. تم تصميم وتطوير التطبيق بواسطة المهندسة رغد",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
